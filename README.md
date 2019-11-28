@@ -64,6 +64,15 @@ set1 \ set2
 
 Number of elements in set (requires EXTENDS FiniteSets)
 Cardinality(set)
+
+Power Set
+SUBSET set
+
+Set union
+UNION set_of_sets
+
+Cartesian product (not associative)
+set1 \X set2
 ```
 
 ## Sequence / Tuple Operations

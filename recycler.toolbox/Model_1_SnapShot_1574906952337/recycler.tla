@@ -8,7 +8,7 @@ variables
     bins = [trash |-> <<>>, recycle |-> <<>>],
     count = [trash |-> 0, recycle |-> 0],
     item = [type: {"trash", "recycle"}, size: 1..6],
-    items \in item \X item \X item \X item,
+    items \in item \X item \X item,
     curr = ""; \* helper: current item
 
 macro add_item(type) begin
@@ -42,7 +42,7 @@ Init == (* Global variables *)
         /\ bins = [trash |-> <<>>, recycle |-> <<>>]
         /\ count = [trash |-> 0, recycle |-> 0]
         /\ item = [type: {"trash", "recycle"}, size: 1..6]
-        /\ items \in item \X item \X item \X item
+        /\ items \in item \X item \X item
         /\ curr = ""
         /\ pc = "Lbl_1"
 
