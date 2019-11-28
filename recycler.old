@@ -67,14 +67,14 @@ Lbl_1 == /\ pc = "Lbl_1"
                                           /\ capacity' = [capacity EXCEPT !["trash"] = capacity["trash"] - curr'.size]
                                           /\ count' = [count EXCEPT !["trash"] = count["trash"] + 1]
                                      ELSE /\ TRUE
-                                          /\ UNCHANGED << capacity, bins,
+                                          /\ UNCHANGED << capacity, bins, 
                                                           count >>
                     /\ pc' = "Lbl_1"
-               ELSE /\ Assert(capacity.trash >= 0 /\ capacity.recycle >= 0,
+               ELSE /\ Assert(capacity.trash >= 0 /\ capacity.recycle >= 0, 
                               "Failure of assertion at line 35, column 5.")
-                    /\ Assert(Cardinality(bins.trash) = count.trash,
+                    /\ Assert(Cardinality(bins.trash) = count.trash, 
                               "Failure of assertion at line 36, column 5.")
-                    /\ Assert(Cardinality(bins.recycle) = count.recycle,
+                    /\ Assert(Cardinality(bins.recycle) = count.recycle, 
                               "Failure of assertion at line 37, column 5.")
                     /\ pc' = "Done"
                     /\ UNCHANGED << capacity, bins, count, items, curr >>
