@@ -13,6 +13,11 @@ variables
     items \in SetsOfFour(Items),
     curr = ""; \* helper: current item
 
+define
+    NoBinOverflow == capacity.trash >= 0 /\ capacity.recycle >= 0
+    CountsMatchUp == Len(bins.trash) = count.trash /\ Len(bins.recycle) = count.recycle
+end define;
+
 macro add_item(type) begin
     bins[type] := Append(bins[type], curr);
     capacity[type] := capacity[type] - curr.size;
@@ -30,12 +35,15 @@ begin
         end if
     end while;
 
-    assert capacity.trash >= 0 /\ capacity.recycle >= 0;
-    assert Len(bins.trash) = count.trash;
-    assert Len(bins.recycle) = count.recycle;
+    assert NoBinOverflow /\ CountsMatchUp;
 end algorithm;*)
 \* BEGIN TRANSLATION
 VARIABLES capacity, bins, count, items, curr, pc
+
+(* define statement *)
+NoBinOverflow == capacity.trash >= 0 /\ capacity.recycle >= 0
+CountsMatchUp == Len(bins.trash) = count.trash /\ Len(bins.recycle) = count.recycle
+
 
 vars == << capacity, bins, count, items, curr, pc >>
 
@@ -63,12 +71,8 @@ Lbl_1 == /\ pc = "Lbl_1"
                                           /\ UNCHANGED << capacity, bins, 
                                                           count >>
                     /\ pc' = "Lbl_1"
-               ELSE /\ Assert(capacity.trash >= 0 /\ capacity.recycle >= 0, 
-                              "Failure of assertion at line 33, column 5.")
-                    /\ Assert(Len(bins.trash) = count.trash, 
-                              "Failure of assertion at line 34, column 5.")
-                    /\ Assert(Len(bins.recycle) = count.recycle, 
-                              "Failure of assertion at line 35, column 5.")
+               ELSE /\ Assert(NoBinOverflow /\ CountsMatchUp, 
+                              "Failure of assertion at line 38, column 5.")
                     /\ pc' = "Done"
                     /\ UNCHANGED << capacity, bins, count, items, curr >>
 
