@@ -2,13 +2,15 @@
 
 EXTENDS Sequences, Integers, TLC
 
+BinTypes == {"trash", "recycle"}
+SetsOfFour(set) == set \X set \X set \X set
+Items == [type: BinTypes, size: 1..6]
 (*--algorithm recycler
 variables
     capacity \in [trash: 1..10, recycle: 1..10],
     bins = [trash |-> <<>>, recycle |-> <<>>],
     count = [trash |-> 0, recycle |-> 0],
-    item = [type: {"trash", "recycle"}, size: 1..6],
-    items \in item \X item \X item \X item,
+    items \in SetsOfFour(Items),
     curr = ""; \* helper: current item
 
 macro add_item(type) begin
@@ -33,16 +35,15 @@ begin
     assert Len(bins.recycle) = count.recycle;
 end algorithm;*)
 \* BEGIN TRANSLATION
-VARIABLES capacity, bins, count, item, items, curr, pc
+VARIABLES capacity, bins, count, items, curr, pc
 
-vars == << capacity, bins, count, item, items, curr, pc >>
+vars == << capacity, bins, count, items, curr, pc >>
 
 Init == (* Global variables *)
         /\ capacity \in [trash: 1..10, recycle: 1..10]
         /\ bins = [trash |-> <<>>, recycle |-> <<>>]
         /\ count = [trash |-> 0, recycle |-> 0]
-        /\ item = [type: {"trash", "recycle"}, size: 1..6]
-        /\ items \in item \X item \X item \X item
+        /\ items \in SetsOfFour(Items)
         /\ curr = ""
         /\ pc = "Lbl_1"
 
@@ -63,14 +64,13 @@ Lbl_1 == /\ pc = "Lbl_1"
                                                           count >>
                     /\ pc' = "Lbl_1"
                ELSE /\ Assert(capacity.trash >= 0 /\ capacity.recycle >= 0, 
-                              "Failure of assertion at line 31, column 5.")
-                    /\ Assert(Len(bins.trash) = count.trash, 
-                              "Failure of assertion at line 32, column 5.")
-                    /\ Assert(Len(bins.recycle) = count.recycle, 
                               "Failure of assertion at line 33, column 5.")
+                    /\ Assert(Len(bins.trash) = count.trash, 
+                              "Failure of assertion at line 34, column 5.")
+                    /\ Assert(Len(bins.recycle) = count.recycle, 
+                              "Failure of assertion at line 35, column 5.")
                     /\ pc' = "Done"
                     /\ UNCHANGED << capacity, bins, count, items, curr >>
-         /\ item' = item
 
 (* Allow infinite stuttering to prevent deadlock on termination. *)
 Terminating == pc = "Done" /\ UNCHANGED vars
