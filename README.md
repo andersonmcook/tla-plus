@@ -94,3 +94,6 @@ seq1 \o seq2
 Length
 Len(seq)
 ```
+
+## Macros
+Essentially functions. No double assignments. No `while` loops.
