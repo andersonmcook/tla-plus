@@ -74,7 +74,7 @@ SelectSeqByIndex(seq, T(_)) ==
   )
 
 (* Pulls an index of the sequence for an element *)
-Index(seq, elem) == CHOOSE i \in 1.Len(seq) : seq[i] = elem
+Index(seq, elem) == CHOOSE i \in 1..Len(seq): seq[i] = elem
 
 (*
 % is 0-based, but sequences are 1-based.  This means S[x % Len(S)] might be an error,

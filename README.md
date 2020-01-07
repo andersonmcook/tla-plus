@@ -171,6 +171,27 @@ Define anonymous operators with `LAMBDA`.  These can only be used as arguments t
 
 Operators can be used as invariants.
 
+`DOMAIN` is a special prefix operator that gives us the possible inputs to a function.
+
+`@@` is an infix operator that merges two functions. Use with `EXTENDS TLC`.
+
+`:>` is the function `[x \in {a} |-> b]`. Use with `EXTENDS TLC`.
+
+`[set1 -> set2]` is the set of all functions that map elements of set1 to elements of set2.
+
+```
+>> [s \in {"a", "b"} |-> {1, 2}]
+[a |-> {1, 2}, b |-> {1, 2}]
+
+>> [{"a", "b"} -> {1, 2}]
+{
+  [a |-> 1, b -> 1],
+  [a |-> 1, b -> 2],
+  [a |-> 2, b -> 1],
+  [a |-> 2, b -> 2],
+}
+```
+
 ## Invariants
 Boolean expressions that are checked at the end of every step of the model.
 Add them to the Invariants section of the model in TLA+ Toolbox.
