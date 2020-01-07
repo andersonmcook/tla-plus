@@ -24,7 +24,7 @@ KnapsackSize(sack, itemset) ==
 KnapsackValue(sack, itemset) ==
     LET value_for(item) == itemset[item].value * sack[item]
     IN PT!ReduceSet(LAMBDA item, acc: value_for(item) + acc, Items, 0)
-
+\* there is an issue and it thinks it's in the line below
 ValidKnapsacks(itemset) ==
     {sack \in [Items -> 0..4]: KnapsackSize(sack, itemset) <= Capacity}
 
@@ -81,7 +81,7 @@ Init == (* Global variables *)
         /\ pc = "Lbl_1"
 
 Lbl_1 == /\ pc = "Lbl_1"
-         /\ Assert(BestKnapsacks(itemset) \in ValidKnapsacks(itemset), 
+         /\ Assert(BestKnapsacks(itemset) \in ValidKnapsacks(itemset),
                    "Failure of assertion at line 72, column 5.")
          /\ pc' = "Done"
          /\ UNCHANGED itemset
